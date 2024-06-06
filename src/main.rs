@@ -8,11 +8,12 @@ use regex::Regex;
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
-        eprintln!("Usage: {} <file> [--rename]", args[0]);
+        eprintln!("Usage: {} <file> [--rename] [--unwrap]", args[0]);
         std::process::exit(1);
     }
     let filename = &args[1];
     let rename_headers = args.iter().any(|arg| arg == "--rename");
+    let unwrap_lines = args.iter().any(|arg| arg == "--unwrap");
 
     let file = File::open(filename)?;
     let mut buf_reader = BufReader::new(file);
@@ -52,7 +53,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let re_consecutive_0a_at_end = Regex::new(r"(0A)+\z")?;
     hex_string = re_consecutive_0a_at_end.replace(&hex_string, "0A").to_string();
 
-    let output = convert_hex_to_text(&hex_string)?;
+    let output = convert_hex_to_text(&hex_string, unwrap_lines)?;
 
     let (output, header_mappings) = if rename_headers {
         rename_headers_in_output(&output)?
@@ -73,13 +74,19 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn convert_hex_to_text(hex_str: &str) -> Result<String, Box<dyn Error>> {
+// Modify the convert_hex_to_text function to accept a new parameter for unwrapping
+fn convert_hex_to_text(hex_str: &str, unwrap: bool) -> Result<String, Box<dyn Error>> {
     let mut output = String::with_capacity(hex_str.len() / 2);
     for i in (0..hex_str.len()).step_by(2) {
         let hex_slice = &hex_str[i..i + 2];
         let hex_value = u8::from_str_radix(hex_slice, 16)?;
         output.push(hex_value as char);
     }
+
+    if unwrap {
+        output = unwrap_fasta(&output);
+    }
+
     Ok(output)
 }
 
@@ -110,4 +117,28 @@ fn rename_headers_in_output(output: &str) -> Result<(String, Vec<(String, String
     }
 
     Ok((new_output, header_mappings))
+}
+
+// Function to handle unwrapping
+fn unwrap_fasta(input: &str) -> String {
+    let mut unwrapped = String::new();
+    let mut is_header = true; // Assume the first line is a header
+
+    for line in input.lines() {
+        if line.starts_with('>') {
+            if !is_header {
+                unwrapped.push('\n'); // Separate previous sequence from this header
+            }
+            unwrapped.push_str(line);
+            unwrapped.push('\n');
+            is_header = true;
+        } else if is_header {
+            unwrapped.push_str(line);
+            is_header = false;
+        } else {
+            unwrapped.push_str(line);
+        }
+    }
+
+    unwrapped
 }
