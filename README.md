@@ -32,7 +32,7 @@ T
 C
 A
 ```
-Running `fasta_doctor_x86_64 windows.fasta --rename --unwrap` yields:
+Running `fasta_doctor_x86_64 input.fasta --rename --unwrap` yields:
 ```
 >A0B
 ACTGGTCA
