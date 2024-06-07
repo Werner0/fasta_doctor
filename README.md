@@ -1,6 +1,6 @@
 # fasta_doctor  
 ### Description
-A command-line tool to repair and clean FASTA files.
+A command-line tool to repair and clean [FASTA files](https://en.wikipedia.org/wiki/FASTA_format).
 
 ### Usage
 Linux: `fasta_doctor_x86_64 <input.fasta> [--rename] [--unwrap]`.
