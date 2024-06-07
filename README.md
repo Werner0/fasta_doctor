@@ -3,7 +3,8 @@
 A command-line tool to repair and clean [FASTA files](https://en.wikipedia.org/wiki/FASTA_format).
 
 ### Usage
-Linux: `fasta_doctor_x86_64 <input.fasta> [--rename] [--unwrap]`.
++ Linux: `fasta_doctor_x86_64 <input.fasta> [--rename] [--unwrap]`.  
++ Compile fasta_doctor for Windows and Mac with `cargo build` [(see Rust documentation)](https://www.rust-lang.org/tools/install).
 
 ### Output
 + Fixed FASTA file: `output.fasta`.
