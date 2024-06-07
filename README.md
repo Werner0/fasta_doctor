@@ -10,7 +10,7 @@ Linux: `fasta_doctor_x86_64 <input.fasta> [--rename] [--unwrap]`.
 + FASTA header mapping file: `mapping.fasta_doctor` (only created with `--rename`).
 
 ### What fasta_doctor does by default
-+ Ensures FASTA file starts with a ">" and ends with a newline.  
++ Ensures the input FASTA file starts with a carat (">") and ends with a newline. 
 + Removes all non-printable control characters in the hexadecimal range 00-1F (except 0A).
 
 ### What fasta_doctor does optionally
