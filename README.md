@@ -17,3 +17,26 @@ Linux: `fasta_doctor_x86_64 <input.fasta> [--rename] [--unwrap]`.
 + Renames FASTA headers using the alphanumeric pattern A[n]B (e.g. A0001B). Requires `--rename`.
 + Creates a persistent mapping from old to new FASTA headers. Requires `--rename`.
 + Removes line wrapping. Requires `--unwrap`.
+
+### Example
+The following FASTA file content includes a comment line, inconsistent header names, line wrapping and non-printable carriage returns.
+```
+#Fasta
+>Clone@1 | test 1
+ACTG
+GTCA
+>Clone2
+ACTG
+G
+T
+C
+A
+```
+Running `fasta_doctor_x86_64 windows.fasta --rename --unwrap` yields:
+```
+>A0B
+ACTGGTCA
+>A1B
+ACTGGTCA
+```
+with an additional file mapping old to new header names.
