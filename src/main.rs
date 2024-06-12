@@ -1,11 +1,20 @@
 // Description: Fixes a FASTA file
 
+mod memory_monitor;
+
+use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
+use std::time::Duration;
 use std::fmt::Write as FmtWrite;
 use std::io::{BufReader, Read, Write as IoWrite};
 use std::{env, fs::File, error::Error};
 use regex::Regex;
 
 fn main() -> Result<(), Box<dyn Error>> {
+    //initialize memory monitor
+    let is_running = Arc::new(AtomicBool::new(true));
+    let is_running_clone = Arc::clone(&is_running);
+    memory_monitor::start_memory_monitoring(Duration::from_secs(5), is_running_clone);
+
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
         eprintln!("Usage: {} <file> [--rename] [--unwrap]", args[0]);
@@ -70,6 +79,9 @@ fn main() -> Result<(), Box<dyn Error>> {
             writeln!(names_file, "{}\t{}", old, new)?;
         }
     }
+    //stop memory monitor
+    is_running.store(false, Ordering::SeqCst);
+    std::thread::sleep(Duration::from_secs(1));
 
     Ok(())
 }
