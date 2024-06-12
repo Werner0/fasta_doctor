@@ -31,12 +31,13 @@ cargo build
 + Removes line wrapping. Requires `--unwrap`.
 
 ### Example
-The following content from a FASTA file contains a comment line, inconsistent header names and line wrapping. The [original FASTA file](/example/windows.fasta) also contains non-printable carriage returns ("\r") because it was created in a text editor in Windows.
+The following content from a FASTA file contains a comment line, an empty line, inconsistent header names and line wrapping. The [original FASTA file](/example/windows.fasta) also contains non-printable carriage returns ("\r") because it was created in a text editor in Windows.
 ```
 #Fasta
 >Clone@1 | test 1
 ACTG
 GTCA
+
 >Clone2
 ACTG
 G
