@@ -56,11 +56,13 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
         }
     }
-    hex_string = clean_string;
+    
+    // Remove all "0A" pairs from the end of clean_string
+    while clean_string.ends_with("0A") {
+    clean_string.truncate(clean_string.len() - 2);
+    }
 
-    hex_string.push_str("0A");
-    let re_consecutive_0a_at_end = Regex::new(r"(0A)+\z")?;
-    hex_string = re_consecutive_0a_at_end.replace(&hex_string, "0A").to_string();
+    hex_string = clean_string;
 
     let output = convert_hex_to_text(&hex_string, unwrap_lines)?;
 
@@ -94,7 +96,7 @@ fn convert_hex_to_text(hex_str: &str, unwrap: bool) -> Result<String, Box<dyn Er
         let hex_value = u8::from_str_radix(hex_slice, 16)?;
         output.push(hex_value as char);
     }
-
+    output.push('\n');
     if unwrap {
         output = unwrap_fasta(&output);
     }
@@ -151,6 +153,55 @@ fn unwrap_fasta(input: &str) -> String {
             unwrapped.push_str(line);
         }
     }
+    // Check if the last character is not a newline, then add one
+    if !unwrapped.ends_with('\n') {
+    unwrapped.push('\n');
+    }
 
     unwrapped
+}
+
+// Unit tests
+#[cfg(test)]
+mod tests {
+    // Bring all functions under test into scope
+    use super::*;
+
+    // Unit tests
+    #[test]
+    fn test_rename_headers_in_output() {
+        let input = ">header1\nATGC\n>header2\nATGC";
+        let expected_output = ">A0B\nATGC\n>A1B\nATGC\n";
+        let (output, mappings) = rename_headers_in_output(input).unwrap();
+
+        assert_eq!(output, expected_output);
+        assert_eq!(mappings.len(), 2);
+        assert_eq!(mappings[0], (String::from(">header1"), String::from(">A0B")));
+        assert_eq!(mappings[1], (String::from(">header2"), String::from(">A1B")));
+    }
+
+    #[test]
+    fn test_convert_hex_to_text_without_unwrap() {
+        let hex_str = "3E686561646572310A41544743";
+        let expected_output = ">header1\nATGC\n";
+        let output = convert_hex_to_text(hex_str, false).unwrap();
+
+        assert_eq!(output, expected_output);
+    }
+
+    #[test]
+    fn test_convert_hex_to_text_with_unwrap() {
+        let hex_str = "3E686561646572310A415447430A3E686561646572320A43414754";
+        let expected_output = ">header1\nATGC\n>header2\nCAGT\n";
+        let output = convert_hex_to_text(hex_str, true).unwrap();
+
+        assert_eq!(output, expected_output);
+    }
+    #[test]
+    fn test_unwrap_fasta() {
+        let wrapped_fasta = ">header1\nATGC\nATGC\n>header2\nGCTA\nGCTA";
+        let expected = ">header1\nATGCATGC\n>header2\nGCTAGCTA\n";
+        let result = unwrap_fasta(wrapped_fasta);
+        assert_eq!(result, expected);
+    }
 }
