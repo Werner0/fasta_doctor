@@ -32,7 +32,6 @@ fn main() -> Result<(), Box<dyn Error>> {
             //println!("File size: {} bytes, Number of characters: {}, Ratio: {}", file_size, num_chars, ratio);
             if ratio >= 2.0 {
                 eprintln!("Warning: Multibyte encoding detected");
-                process::exit(1);
             }
         },
         Err(e) => {
