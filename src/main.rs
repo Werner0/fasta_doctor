@@ -1,6 +1,7 @@
 // Description: Fixes a FASTA file
 
 mod memory_monitor;
+mod file_info;
 
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::time::Duration;
@@ -8,6 +9,7 @@ use std::fmt::Write as FmtWrite;
 use std::io::{BufReader, Read, Write as IoWrite};
 use std::{env, fs::File, error::Error};
 use regex::Regex;
+use std::process;
 
 fn main() -> Result<(), Box<dyn Error>> {
     //initialize memory monitor
@@ -23,6 +25,21 @@ fn main() -> Result<(), Box<dyn Error>> {
     let filename = &args[1];
     let rename_headers = args.iter().any(|arg| arg == "--rename");
     let unwrap_lines = args.iter().any(|arg| arg == "--unwrap");
+
+    match file_info::get_file_info(filename) {
+        Ok((file_size, num_chars)) => {
+            let ratio = file_size as f64 / num_chars as f64;
+            //println!("File size: {} bytes, Number of characters: {}, Ratio: {}", file_size, num_chars, ratio);
+            if ratio >= 2.0 {
+                eprintln!("Warning: Multibyte encoding detected");
+                process::exit(1);
+            }
+        },
+        Err(e) => {
+            eprintln!("Error reading file: {}", e);
+            process::exit(1);
+        }
+    }
 
     let file = File::open(filename)?;
     let mut buf_reader = BufReader::new(file);
