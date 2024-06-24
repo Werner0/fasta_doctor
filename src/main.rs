@@ -2,6 +2,7 @@
 
 mod memory_monitor;
 mod file_info;
+mod prechecks;
 
 use std::sync::{Arc, atomic::{AtomicBool, Ordering}};
 use std::time::Duration;
@@ -23,6 +24,29 @@ fn main() -> Result<(), Box<dyn Error>> {
         std::process::exit(1);
     }
     let filename = &args[1];
+
+    // Handle the Result of check_file_extension using match
+    match prechecks::check_file_extension(filename) {
+        Ok(_) => {
+            // File extension is valid, continue processing
+        },
+        Err(e) => {
+            eprintln!("Error checking file extension: {}", e);
+            process::exit(1);
+        }
+    }
+
+    // Handle the Result of check_file_content using match
+    match prechecks::check_file_content(filename) {
+        Ok(_) => {
+            // File content is valid, continue processing
+        },
+        Err(e) => {
+            eprintln!("Error checking file content: {}", e);
+            process::exit(1);
+        }
+    }
+
     let rename_headers = args.iter().any(|arg| arg == "--rename");
     let unwrap_lines = args.iter().any(|arg| arg == "--unwrap");
 
