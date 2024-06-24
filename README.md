@@ -26,6 +26,7 @@ cargo build
 + Ensures the input FASTA file starts with a greater-than sign (">") and ends with a newline character ("\n").
 + Removes duplicate greater-than signs (e.g. ">>" becomes ">").
 + Removes all non-printable control characters in the hexadecimal range 00-1F (except 0A).
++ Detects multibyte character encoding (e.g. when the input file uses UTF-16 or UTF-32). Output is saved using UTF-8.
 
 ### What fasta_doctor does optionally
 + Renames FASTA headers using the alphanumeric pattern A[n]B (e.g. A0001B). Requires `--rename`.
