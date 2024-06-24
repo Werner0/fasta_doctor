@@ -11,11 +11,12 @@ chmod a+x fasta_doctor_x86_64
 Option 2: Compile it yourself (requires [Rust and Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)).
 ```
 git clone https://github.com/Werner0/fasta_doctor.git
+cargo test
 cargo build
 ```
 ### Usage
-+ Linux: `./fasta_doctor_x86_64 <input.fasta> [--rename] [--unwrap]`.  
-+ Self compiled: `./target/debug/fasta_doctor <input.fasta> [--rename] [--unwrap]`.
++ Linux: `./fasta_doctor_x86_64 <input.fasta|.fna|.faa|.aa> [--rename] [--unwrap]`.  
++ Self compiled: `./target/debug/fasta_doctor <input.fasta|.fna|.faa|.aa> [--rename] [--unwrap]`.
 
 ### Output
 + A fixed FASTA file: `output.fasta`.
