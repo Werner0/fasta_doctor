@@ -1,9 +1,9 @@
 #Fasta
->Clone@1 | test 1
+>>Clone@1 | test 1
 ACTG
 GTCA
 
->Clone2
+>>Clone2
 ACTG
 G
 T
