@@ -23,7 +23,8 @@ cargo build
 + A file that maps old to new FASTA headers: `mapping.fasta_doctor` (only created with `--rename`).
 
 ### What fasta_doctor does by default
-+ Ensures the input FASTA file starts with a carat (">") and ends with a newline character ("\n"). 
++ Ensures the input FASTA file starts with a greater-than sign (">") and ends with a newline character ("\n").
++ Removes duplicate greater-than signs (e.g. ">>" becomes ">").
 + Removes all non-printable control characters in the hexadecimal range 00-1F (except 0A).
 
 ### What fasta_doctor does optionally
