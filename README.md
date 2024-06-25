@@ -34,7 +34,7 @@ cargo build
 + Removes line wrapping. Requires `--unwrap`.
 
 ### Example
-The following content from a FASTA file contains a comment line, an empty line, duplicate header row markers (greater-than signs), inconsistent header names, and line wrapping. The [original FASTA file](/example/windows.fasta) also contains non-printable carriage returns ("\r") because it was created in a text editor in Windows.
+The following incorrectly formatted FASTA content contains a comment line, an empty line, duplicate header row markers (greater-than signs), inconsistent header names, and line wrapping.
 ```
 #Fasta
 >>Clone@1 | test 1
@@ -48,11 +48,11 @@ T
 C
 A
 ```
-Running `fasta_doctor_x86_64 input.fasta --rename --unwrap` yields:
+Running fasta_doctor with the `--rename` and `--unwrap` flags will return the following output:
 ```
 >A0B
 ACTGGTCA
 >A1B
 ACTGGTCA
 ```
-Old headers are mapped to new headers and saved in `mapping.fasta_doctor`.
+Because the `--rename` flag is used, old headers are also mapped to new headers and saved in `mapping.fasta_doctor`. See the [example directory](example/) for specific examples of incorrectly formatted FASTA files.
