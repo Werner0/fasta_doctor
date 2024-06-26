@@ -55,4 +55,21 @@ ACTGGTCA
 >A1B
 ACTGGTCA
 ```
-Because the `--rename` flag is used, old headers are also mapped to new headers and saved in `mapping.fasta_doctor`. See the [example directory](example/) for specific examples of incorrectly formatted FASTA files.
+Because the `--rename` flag is used, old headers are also mapped to new headers and saved in `mapping.fasta_doctor`.
+
+### Comparison to other FASTA file parsers
+| Method | [Test number](example/) |	fasta_doctor | [EMBOSS seqret](https://www.ebi.ac.uk/jdispatcher/sfc/emboss_seqret) | [SeqKit](https://bioinf.shenwei.me/seqkit/) | [FASTX Toolkit](http://hannonlab.cshl.edu/fastx_toolkit/) |
+| --- | :---:| :---: | :---: | :---: | :---: |
+Ensures single EOF newline character (multiple present) | 1 | :white_check_mark: | :white_check_mark: | :white_check_mark: | |	
+Ensures single EOF newline character (none present) | 2 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+Parses and removes empty lines | 3 | :white_check_mark: | :white_check_mark: |:white_check_mark: | |	
+Parses and removes non-printable carriage return | 5 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+Parses and removes non-printable horizontal tab | 9 | :white_check_mark: | :white_check_mark: | | |		
+Parses multibyte character set encoded files (e.g. UTF-16) | 4 |:white_check_mark: | | | |			
+Removes duplicate fasta header markers | 6 | :white_check_mark: | :white_check_mark: | :black_medium_small_square: | :white_check_mark: |
+Removes file content leading the first header mark | 7 | :white_check_mark: | | :black_medium_small_square: | |	
+Removes line wrapping | 8 | :white_check_mark: | :white_check_mark: | :white_check_mark: | |	
+Renames header lines | NA | :white_check_mark: | | :white_check_mark: | :white_check_mark: |
+Saves persistent mapping of old to new headers | NA | :white_check_mark: | | | |  
+
+:black_medium_small_square: Requires external regex pattern
