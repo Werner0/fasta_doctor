@@ -6,11 +6,13 @@ A command-line tool to repair and clean [FASTA files](https://en.wikipedia.org/w
 Option 1: A pre-built version for Linux is included in this repository.
 ```
 git clone https://github.com/Werner0/fasta_doctor.git
+cd fasta_doctor
 chmod a+x fasta_doctor_x86_64
 ```
 Option 2: Compile it yourself (requires [Rust and Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)).
 ```
 git clone https://github.com/Werner0/fasta_doctor.git
+cd fasta_doctor
 cargo test
 cargo build
 ```
