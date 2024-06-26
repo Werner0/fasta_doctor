@@ -66,10 +66,10 @@ Parses and removes empty lines | 3 | :white_check_mark: | :white_check_mark: |:w
 Parses and removes non-printable carriage return | 5 | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 Parses and removes non-printable horizontal tab | 9 | :white_check_mark: | :white_check_mark: | | |		
 Parses multibyte character set encoded files (e.g. UTF-16) | 4 |:white_check_mark: | | | |			
-Removes duplicate fasta header markers | 6 | :white_check_mark: | :white_check_mark: | :black_medium_small_square: | :white_check_mark: |
-Removes file content leading the first header mark | 7 | :white_check_mark: | | :black_medium_small_square: | |	
+Removes duplicate fasta header markers | 6 | :white_check_mark: | :white_check_mark: | :green_circle: | :white_check_mark: |
+Removes file content leading the first header mark | 7 | :white_check_mark: | | :green_circle: | |	
 Removes line wrapping | 8 | :white_check_mark: | :white_check_mark: | :white_check_mark: | |	
 Renames header lines | NA | :white_check_mark: | | :white_check_mark: | :white_check_mark: |
 Saves persistent mapping of old to new headers | NA | :white_check_mark: | | | |  
 
-:black_medium_small_square: Requires external regex pattern
+:green_circle: Requires external regex pattern
