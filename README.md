@@ -78,4 +78,4 @@ Saves persistent mapping of old to new headers | NA | :white_check_mark: | | | |
 :green_circle: Requires external regex pattern
 
 ### Citation
-Veldsman WP (2024) fasta_doctor: software to fix a FASTA file. _Zenodo_. DOI:10.5281/zenodo.12618131.
+Veldsman WP (2024) fasta_doctor: software to fix a FASTA file. _Zenodo_. DOI:10.5281/zenodo.12618130.
