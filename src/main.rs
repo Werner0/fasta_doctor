@@ -19,9 +19,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     memory_monitor::start_memory_monitoring(Duration::from_secs(5), is_running_clone);
 
     let args: Vec<String> = env::args().collect();
-    if args.len() < 2 {
-        eprintln!("Usage: {} <file> [--rename] [--unwrap]", args[0]);
-        std::process::exit(1);
+    if args.len() < 2 || args.contains(&"--help".to_string()) {
+        print_help(&args[0]);
+        process::exit(0);
     }
     let filename = &args[1];
 
@@ -126,6 +126,20 @@ fn main() -> Result<(), Box<dyn Error>> {
     std::thread::sleep(Duration::from_secs(1));
 
     Ok(())
+}
+
+//Help information
+fn print_help(program_name: &str) {
+    println!("\nA command-line tool to repair and clean FASTA files, equipped with a wide array of features. It ensures the presence of a single end-of-file newline character, regardless of its initial state, and adeptly handles the removal of both empty lines and various non-printable characters, such as carriage returns and horizontal tabs. Notably, fasta_doctor stands out with its capability to parse multibyte character set encoded files, like UTF-16, which is not a common feature among similar tools. It also efficiently removes duplicate fasta header markers and any content leading the first header mark, ensuring the integrity of the file structure. Additionally, fasta_doctor offers functionalities for renaming header lines and saving a persistent mapping of old to new headers, enhancing its utility for users requiring advanced FASTA file manipulation and management.");
+    println!("\nVersion: {}", env!("CARGO_PKG_VERSION"));
+    println!("\nAuthor: Werner Veldsman");
+    println!("\nContact: https://github.com/Werner0/fasta_doctor/issues");
+    println!("\nUsage:");
+    println!("  {} <file> [options]", program_name);
+    println!("\nOptions:");
+    println!("  --rename    Rename FASTA headers and save a mapping to mapping.fasta_doctor");
+    println!("  --unwrap    Remove line wrapping from sequence lines");
+    println!("  --help      Print this help message and exit\n");
 }
 
 // Modify the convert_hex_to_text function to accept a new parameter for unwrapping
